@@ -24,11 +24,64 @@ export default function Header() {
     setMobileOpen(false);
   }, [location]);
 
-  // Lock body scroll when mobile menu open
+  // Lock body scroll and prevent background touch movement when mobile menu open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    if (!mobileOpen) return;
+
+    // Save the original body inline styles
+    const originalOverflow = document.body.style.overflow;
+    const originalHeight = document.body.style.height;
+    const originalPosition = document.body.style.position;
+
+    // Apply strict overflow hidden and set heights to lock the body viewport
+    document.body.style.overflow = 'hidden';
+    document.body.style.height = '100dvh';
+    document.body.style.position = 'relative';
+
+    let touchStartY = 0;
+
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      const scrollable = document.getElementById('mobile-menu-content');
+      
+      // If we're swiping on elements outside the scrollable container, prevent scrolling
+      if (!scrollable || !scrollable.contains(e.target)) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+        return;
+      }
+
+      // Check boundaries of the scrollable container to prevent background rubber-banding
+      const scrollTop = scrollable.scrollTop;
+      const scrollHeight = scrollable.scrollHeight;
+      const clientHeight = scrollable.clientHeight;
+      const maxScroll = scrollHeight - clientHeight;
+      const currentY = e.touches[0].clientY;
+      
+      const isScrollingUp = currentY > touchStartY;
+      const isScrollingDown = currentY < touchStartY;
+
+      if (scrollTop <= 0 && isScrollingUp) {
+        if (e.cancelable) e.preventDefault();
+      } else if (scrollTop >= maxScroll && isScrollingDown) {
+        if (e.cancelable) e.preventDefault();
+      }
+    };
+
+    // Register event listeners (non-passive to allow preventDefault)
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
     return () => {
-      document.body.style.overflow = '';
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.body.style.overflow = originalOverflow;
+      document.body.style.height = originalHeight;
+      document.body.style.position = originalPosition;
     };
   }, [mobileOpen]);
 
@@ -211,10 +264,10 @@ export default function Header() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-0 z-[99] bg-gray-950 flex flex-col"
+            className="fixed inset-0 z-[150] w-full h-[100dvh] bg-gray-950 flex flex-col"
           >
-            {/* Close button */}
-            <div className="flex justify-between items-center p-6 border-b border-white/10">
+            {/* Header/Close button - non-shrinking */}
+            <div className="flex justify-between items-center p-6 border-b border-white/10 flex-shrink-0">
               <div className="flex items-center gap-3">
                 <img
                   src={COMPANY.logo}
@@ -226,56 +279,75 @@ export default function Header() {
               <button
                 onClick={() => setMobileOpen(false)}
                 aria-label="Close mobile menu"
-                className="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center hover:bg-white/20"
+                className="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
               >
                 <FaTimes />
               </button>
             </div>
 
-            {/* Nav links */}
-            <nav className="flex-1 flex flex-col justify-center px-8 gap-2">
-              {NAV_LINKS.map((link, i) => {
-                const isActive = activeSection === link.id;
-                return (
-                  <motion.div
-                    key={link.id}
-                    initial={{ opacity: 0, x: 40 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.08 }}
-                  >
-                    <a
-                      href={`/#${link.id}`}
-                      onClick={(e) => handleNavClick(link.id, link.path, e)}
-                      className={cn(
-                        'block text-3xl font-display font-bold py-4 border-b border-white/10 transition-colors duration-200',
-                        isActive ? 'text-primary-400' : 'text-white hover:text-primary-300'
-                      )}
+            {/* Scrollable Content Container */}
+            <div
+              id="mobile-menu-content"
+              className="flex-1 overflow-y-auto px-6 py-8 flex flex-col justify-between"
+              style={{
+                overscrollBehavior: 'contain',
+                WebkitOverflowScrolling: 'touch',
+              }}
+            >
+              {/* Nav links */}
+              <nav className="flex flex-col gap-1.5" aria-label="Mobile navigation links">
+                {NAV_LINKS.map((link, i) => {
+                  const isActive = activeSection === link.id;
+                  return (
+                    <motion.div
+                      key={link.id}
+                      initial={{ opacity: 0, x: 40 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
                     >
-                      {link.label}
-                    </a>
-                  </motion.div>
-                );
-              })}
-            </nav>
+                      <a
+                        href={`/#${link.id}`}
+                        onClick={(e) => handleNavClick(link.id, link.path, e)}
+                        className={cn(
+                          'block text-2xl font-display font-bold py-3.5 px-4 rounded-xl transition-all duration-200 border border-transparent',
+                          isActive
+                            ? 'text-primary-400 bg-white/5 border-white/5 shadow-glow-primary font-extrabold'
+                            : 'text-white hover:text-primary-300 hover:bg-white/5'
+                        )}
+                      >
+                        {link.label}
+                      </a>
+                    </motion.div>
+                  );
+                })}
+              </nav>
 
-            {/* Bottom contact */}
-            <div className="p-8 space-y-3">
-              <a
-                href={`tel:${COMPANY.phoneRaw}`}
-                className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl
-                  bg-gradient-to-r from-primary-500 to-primary-700 text-white font-semibold text-lg"
-              >
-                <FaPhone /> Call Now
-              </a>
-              <a
-                href={`https://wa.me/${COMPANY.whatsapp.replace(/\D/g, '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl
-                  bg-[#25D366] text-white font-semibold text-lg"
-              >
-                💬 WhatsApp
-              </a>
+              {/* Bottom contact info and actions */}
+              <div className="space-y-4 mt-8 flex-shrink-0">
+                <div className="border-t border-white/10 pt-6 pb-2 text-center">
+                  <p className="text-xs text-gray-400 font-semibold tracking-widest uppercase mb-1">Get In Touch</p>
+                  <p className="text-sm text-gray-300 font-medium">{COMPANY.phone}</p>
+                  <p className="text-xs text-gray-500 font-medium">{COMPANY.email}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <a
+                    href={`tel:${COMPANY.phoneRaw}`}
+                    className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl
+                      bg-gradient-to-r from-primary-500 to-primary-700 text-white font-bold text-base hover:opacity-90 active:scale-95 transition-all shadow-glow-primary"
+                  >
+                    <FaPhone className="text-xs" /> Call Now
+                  </a>
+                  <a
+                    href={`https://wa.me/${COMPANY.whatsapp.replace(/\D/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl
+                      bg-[#25D366] text-white font-bold text-base hover:opacity-90 active:scale-95 transition-all"
+                  >
+                    💬 WhatsApp
+                  </a>
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
