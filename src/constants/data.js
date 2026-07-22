@@ -1,7 +1,7 @@
 // Company Information
 export const COMPANY = {
   name: 'Triple Task Movers',
-  logo: 'https://res.cloudinary.com/dai2g47e4/image/upload/v1784746169/WhatsApp_Image_2026-07-22_at_11.45.42_PM_pb3awd.jpg',
+  logo: 'https://res.cloudinary.com/dai2g47e4/image/upload/v1784754839/WhatsApp_Image_2026-07-23_at_1.52.49_AM_cdyvk3.jpg',
   tagline: 'Alberta\'s Most Trusted Moving Company',
   phone: '+1 (365) 440-0188',
   phoneRaw: '+13654400188',
