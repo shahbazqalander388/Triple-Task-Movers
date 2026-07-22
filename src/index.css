@@ -1,0 +1,340 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================
+   GLOBAL BASE STYLES
+   ============================================= */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #0a1628;
+    color: #ffffff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #0B8F3A;
+    color: #ffffff;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #0B8F3A;
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #076F2C;
+  }
+}
+
+/* =============================================
+   CUSTOM COMPONENT CLASSES
+   ============================================= */
+@layer components {
+
+  /* Gradient Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 text-white font-semibold text-base rounded-full
+    bg-gradient-to-r from-primary-500 to-primary-700
+    shadow-glow-primary transition-all duration-300
+    hover:shadow-glow-primary hover:scale-105 hover:brightness-110
+    active:scale-95 relative overflow-hidden cursor-pointer select-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 text-white font-semibold text-base rounded-full
+    bg-gradient-to-r from-secondary-500 to-secondary-700
+    shadow-glow-secondary transition-all duration-300
+    hover:scale-105 hover:brightness-110
+    active:scale-95 relative overflow-hidden cursor-pointer select-none;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 font-semibold text-base rounded-full
+    border-2 border-white text-white
+    transition-all duration-300
+    hover:bg-white hover:text-primary-600 hover:scale-105
+    active:scale-95 cursor-pointer select-none;
+  }
+
+  /* Glass Card */
+  .glass-card {
+    @apply backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl shadow-glass;
+  }
+
+  .glass-card-dark {
+    @apply backdrop-blur-md bg-black/20 border border-white/10 rounded-2xl shadow-glass;
+  }
+
+  /* Section Padding */
+  .section-padding {
+    @apply py-20 lg:py-28;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Skeleton Shimmer */
+  .skeleton {
+    @apply bg-gray-200 rounded-xl relative overflow-hidden;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f0f4f8 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Section gradient divider */
+  .section-divider {
+    @apply absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-b from-transparent to-white;
+  }
+
+  /* Floating shape */
+  .floating-shape {
+    @apply absolute rounded-full opacity-10 blur-3xl;
+  }
+}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+@layer utilities {
+
+  /* Animated gradient bg */
+  .animated-gradient {
+    background: linear-gradient(-45deg, #0B8F3A, #076F2C, #FF7A00, #0B8F3A);
+    background-size: 400% 400%;
+    animation: gradient 8s ease infinite;
+  }
+
+  /* Text gradient */
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600;
+  }
+
+  .text-gradient-secondary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary-400 to-secondary-600;
+  }
+
+  .text-gradient-mixed {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #0B8F3A 0%, #FF7A00 100%);
+  }
+
+  /* Hover lift */
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-card-hover;
+  }
+
+  /* Pulse ring */
+  .pulse-ring {
+    @apply absolute inset-0 rounded-full border-4 border-green-400 opacity-75;
+    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+}
+
+/* =============================================
+   CUSTOM CURSOR
+   ============================================= */
+.custom-cursor {
+  width: 12px;
+  height: 12px;
+  background: #0B8F3A;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+}
+
+.custom-cursor-follower {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #0B8F3A;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: all 0.15s ease;
+  opacity: 0.5;
+}
+
+.custom-cursor.cursor-hover {
+  width: 20px;
+  height: 20px;
+  background: #FF7A00;
+}
+
+/* =============================================
+   LOADING SCREEN
+   ============================================= */
+.loader-truck {
+  animation: drive 1s ease-in-out infinite alternate;
+}
+
+@keyframes drive {
+  0% { transform: translateX(-8px) rotate(-1deg); }
+  100% { transform: translateX(8px) rotate(1deg); }
+}
+
+/* =============================================
+   HERO PARALLAX
+   ============================================= */
+.hero-bg {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+/* =============================================
+   ACCORDION
+   ============================================= */
+.accordion-content {
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+
+/* =============================================
+   PROGRESS BAR
+   ============================================= */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0B8F3A, #FF7A00);
+  z-index: 9999;
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* =============================================
+   PAGE TRANSITION
+   ============================================= */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* =============================================
+   GALLERY GRID
+   ============================================= */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .gallery-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* =============================================
+   TESTIMONIAL CAROUSEL
+   ============================================= */
+.testimonial-card {
+  @apply rounded-2xl p-8 shadow-card bg-white border border-gray-100;
+}
+
+/* =============================================
+   FLOATING BUTTONS
+   ============================================= */
+.fab-whatsapp {
+  animation: pulse-whatsapp 2s ease-in-out infinite;
+}
+
+@keyframes pulse-whatsapp {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 16px rgba(37, 211, 102, 0);
+  }
+}
+
+.fab-call {
+  animation: bounce-call 2.5s ease-in-out infinite;
+}
+
+@keyframes bounce-call {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-6px); }
+  75% { transform: translateY(3px); }
+}
+
+/* =============================================
+   NOISE TEXTURE OVERLAY
+   ============================================= */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* =============================================
+   RESPONSIVE FIXES
+   ============================================= */
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 4rem);
+  }
+}
+
+/* AOS overrides */
+[data-aos] {
+  pointer-events: none;
+}
+
+[data-aos].aos-animate {
+  pointer-events: auto;
+}
