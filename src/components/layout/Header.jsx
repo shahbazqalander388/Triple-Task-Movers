@@ -28,15 +28,21 @@ export default function Header() {
   useEffect(() => {
     if (!mobileOpen) return;
 
-    // Save the original body inline styles
-    const originalOverflow = document.body.style.overflow;
-    const originalHeight = document.body.style.height;
-    const originalPosition = document.body.style.position;
+    // Save the original body and html inline styles
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalBodyHeight = document.body.style.height;
+    const originalBodyPosition = document.body.style.position;
 
-    // Apply strict overflow hidden and set heights to lock the body viewport
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    const originalHtmlHeight = document.documentElement.style.height;
+
+    // Apply strict overflow hidden and set heights to lock the body/html viewport
     document.body.style.overflow = 'hidden';
     document.body.style.height = '100dvh';
     document.body.style.position = 'relative';
+
+    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.height = '100dvh';
 
     let touchStartY = 0;
 
@@ -79,9 +85,13 @@ export default function Header() {
     return () => {
       document.removeEventListener('touchstart', handleTouchStart);
       document.removeEventListener('touchmove', handleTouchMove);
-      document.body.style.overflow = originalOverflow;
-      document.body.style.height = originalHeight;
-      document.body.style.position = originalPosition;
+      
+      document.body.style.overflow = originalBodyOverflow;
+      document.body.style.height = originalBodyHeight;
+      document.body.style.position = originalBodyPosition;
+
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.documentElement.style.height = originalHtmlHeight;
     };
   }, [mobileOpen]);
 
@@ -141,16 +151,30 @@ export default function Header() {
   const handleNavClick = (id, path, e) => {
     if (location.pathname === '/') {
       e.preventDefault();
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        setActiveSection(id);
-        window.history.pushState(null, '', `#${id}`);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setActiveSection('home');
+      
+      const wasMobileOpen = mobileOpen;
+      if (wasMobileOpen) {
+        // Force immediate unlock of document body & html scroll styles
+        document.body.style.overflow = '';
+        document.body.style.height = '';
+        document.body.style.position = '';
+        document.documentElement.style.overflow = '';
+        document.documentElement.style.height = '';
+        setMobileOpen(false);
       }
-      setMobileOpen(false);
+
+      // Perform scrolling after layout has settled and browser scrolling is re-enabled
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          setActiveSection(id);
+          window.history.pushState(null, '', `#${id}`);
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setActiveSection('home');
+        }
+      }, wasMobileOpen ? 150 : 0);
     } else {
       setMobileOpen(false);
       navigate(`/#${id}`);
@@ -264,7 +288,7 @@ export default function Header() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-0 z-[150] w-full h-[100dvh] bg-gray-950 flex flex-col"
+            className="fixed inset-0 z-[150] w-full h-[100dvh] bg-gray-950 flex flex-col touch-none"
           >
             {/* Header/Close button - non-shrinking */}
             <div className="flex justify-between items-center p-6 border-b border-white/10 flex-shrink-0">
@@ -288,7 +312,7 @@ export default function Header() {
             {/* Scrollable Content Container */}
             <div
               id="mobile-menu-content"
-              className="flex-1 overflow-y-auto px-6 py-8 flex flex-col justify-between"
+              className="flex-1 overflow-y-auto px-6 py-8 flex flex-col justify-between touch-pan-y"
               style={{
                 overscrollBehavior: 'contain',
                 WebkitOverflowScrolling: 'touch',
