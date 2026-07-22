@@ -11,18 +11,18 @@ function FAB({ href, onClick, icon, tooltip, className, ariaLabel, pulseColor, e
       type={onClick ? 'button' : undefined}
       onClick={onClick}
       aria-label={ariaLabel}
-      className={`relative w-15 h-15 sm:w-17 sm:h-17 rounded-full flex items-center justify-center shadow-2xl text-white transition-all duration-300 cursor-pointer ${className}`}
+      className={`relative w-[57px] h-[57px] sm:w-[72px] sm:h-[72px] rounded-full flex items-center justify-center shadow-2xl text-white transition-all duration-300 cursor-pointer ${className}`}
       onMouseEnter={() => setShowTip(true)}
       onMouseLeave={() => setShowTip(false)}
       onFocus={() => setShowTip(true)}
       onBlur={() => setShowTip(false)}
-      whileHover={{ scale: 1.12, y: -3 }}
+      whileHover={{ scale: 1.1, y: -3 }}
       whileTap={{ scale: 0.92 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
     >
       {pulseColor && (
         <span
-          className={`absolute -inset-1 rounded-full ${pulseColor} opacity-40 animate-pulse pointer-events-none`}
+          className={`absolute -inset-1 rounded-full ${pulseColor} opacity-30 animate-pulse pointer-events-none`}
         />
       )}
       <span className="relative z-10 flex items-center justify-center">{icon}</span>
@@ -75,22 +75,22 @@ export default function FloatingButtons() {
       {/* Call Button */}
       <FAB
         href={`tel:${COMPANY.phoneRaw}`}
-        icon={<FaPhone className="text-2xl sm:text-3xl" />}
+        icon={<FaPhone className="text-[25px] sm:text-[33px]" />}
         tooltip="Call Us Now"
         ariaLabel="Call Triple Task Movers"
         external={false}
         pulseColor="bg-primary-500"
-        className="bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 shadow-glow-primary hover:shadow-glow-primary/90 border border-primary-400/30"
+        className="bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 shadow-glow-primary hover:shadow-glow-primary/90 border-2 border-primary-400/40"
       />
 
       {/* WhatsApp Button */}
       <FAB
         href={`https://wa.me/${cleanWhatsapp}?text=Hi%20Triple%20Task%20Movers%2C%20I%27d%20like%20to%20get%20a%20free%20quote!`}
-        icon={<FaWhatsapp className="text-2xl sm:text-3xl" />}
+        icon={<FaWhatsapp className="text-[25px] sm:text-[33px]" />}
         tooltip="Chat on WhatsApp"
         ariaLabel="Chat with Triple Task Movers on WhatsApp"
         pulseColor="bg-[#25D366]"
-        className="bg-gradient-to-br from-[#25D366] to-[#1da851] hover:from-[#22c55e] hover:to-[#16a34a] shadow-xl shadow-[#25D366]/40 border border-[#25D366]/40"
+        className="bg-gradient-to-br from-[#25D366] to-[#1da851] hover:from-[#22c55e] hover:to-[#16a34a] shadow-xl shadow-[#25D366]/40 border-2 border-[#25D366]/40"
       />
     </div>
   );
