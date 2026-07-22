@@ -39,7 +39,8 @@ const itemVariants = {
 export default function Hero() {
   return (
     <section
-      className="relative min-h-screen flex items-center overflow-hidden"
+      id="home"
+      className="relative min-h-screen flex items-center overflow-hidden scroll-mt-24"
       aria-label="Hero - Triple Task Movers"
     >
       {/* Background */}
@@ -66,129 +67,132 @@ export default function Hero() {
 
       {/* Content */}
       <div className="container-custom relative z-10 pt-28 pb-20">
-        <div className="max-w-4xl">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Badge */}
-            <motion.div variants={itemVariants} className="mb-6">
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-green-300
-                bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full">
-                <FaStar className="text-secondary-400 text-xs" />
-                Alberta's #1 Trusted Moving Company
-                <FaStar className="text-secondary-400 text-xs" />
-              </span>
-            </motion.div>
-
-            {/* Main heading */}
-            <motion.h1
-              variants={itemVariants}
-              className="hero-title font-display font-black text-white leading-[1.05] mb-6"
-              style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Main Content */}
+          <div className="lg:col-span-7 xl:col-span-8">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
             >
-              Moving Made{' '}
-              <span className="relative inline-block">
-                <span className="text-gradient-mixed">Simple,</span>
-                <motion.span
-                  className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary-400 to-secondary-400 rounded-full"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
-                />
-              </span>
-              {' '}Safe &{' '}
-              <span className="text-gradient-mixed">Stress-Free</span>
-            </motion.h1>
-
-            {/* Sub heading */}
-            <motion.p
-              variants={itemVariants}
-              className="text-lg lg:text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl"
-            >
-              Professional residential & commercial moving, packing, loading, cleaning and junk
-              removal services across Alberta. Available{' '}
-              <span className="text-green-400 font-semibold">24 hours a day, 7 days a week</span>.
-            </motion.p>
-
-            {/* Trust badges */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-10">
-              {['Fully Insured', 'On-Time Guarantee', 'Free Quotes', '5-Star Rated'].map((badge) => (
-                <span
-                  key={badge}
-                  className="flex items-center gap-1.5 text-sm text-green-200 bg-white/10
-                    backdrop-blur-sm border border-white/15 px-3 py-1.5 rounded-full"
-                >
-                  <FaCheckCircle className="text-green-400 text-xs" />
-                  {badge}
+              {/* Badge */}
+              <motion.div variants={itemVariants} className="mb-6">
+                <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-green-300
+                  bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full">
+                  <FaStar className="text-secondary-400 text-xs" />
+                  Alberta's #1 Trusted Moving Company
+                  <FaStar className="text-secondary-400 text-xs" />
                 </span>
-              ))}
-            </motion.div>
+              </motion.div>
 
-            {/* CTA buttons */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-16">
-              <motion.a
-                href={`tel:${COMPANY.phoneRaw}`}
-                className="btn-primary text-base"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label="Call Triple Task Movers"
+              {/* Main heading */}
+              <motion.h1
+                variants={itemVariants}
+                className="hero-title font-display font-black text-white leading-[1.05] mb-6"
+                style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)' }}
               >
-                <FaPhone className="text-sm" />
-                Call Now
-              </motion.a>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                Moving Made{' '}
+                <span className="relative inline-block">
+                  <span className="text-gradient-mixed">Simple,</span>
+                  <motion.span
+                    className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary-400 to-secondary-400 rounded-full"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ delay: 0.8, duration: 0.6 }}
+                  />
+                </span>
+                {' '}Safe &{' '}
+                <span className="text-gradient-mixed">Stress-Free</span>
+              </motion.h1>
+
+              {/* Sub heading */}
+              <motion.p
+                variants={itemVariants}
+                className="text-base sm:text-lg lg:text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl"
               >
-                <Link
-                  to="/contact"
-                  className="btn-outline text-base"
-                  aria-label="Get a free moving quote"
+                Professional residential & commercial moving, packing, loading, cleaning and junk
+                removal services across Alberta. Available{' '}
+                <span className="text-green-400 font-semibold">24 hours a day, 7 days a week</span>.
+              </motion.p>
+
+              {/* Trust badges */}
+              <motion.div variants={itemVariants} className="flex flex-wrap gap-2.5 sm:gap-3 mb-10">
+                {['Fully Insured', 'On-Time Guarantee', 'Free Quotes', '5-Star Rated'].map((badge) => (
+                  <span
+                    key={badge}
+                    className="flex items-center gap-1.5 text-xs sm:text-sm text-green-200 bg-white/10
+                      backdrop-blur-sm border border-white/15 px-3 py-1.5 rounded-full"
+                  >
+                    <FaCheckCircle className="text-green-400 text-xs" />
+                    {badge}
+                  </span>
+                ))}
+              </motion.div>
+
+              {/* CTA buttons */}
+              <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
+                <motion.a
+                  href={`tel:${COMPANY.phoneRaw}`}
+                  className="btn-primary text-base"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label="Call Triple Task Movers"
                 >
-                  Get Free Quote
-                  <FaArrowRight className="text-sm" />
-                </Link>
+                  <FaPhone className="text-sm" />
+                  Call Now
+                </motion.a>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    to="/contact"
+                    className="btn-outline text-base"
+                    aria-label="Get a free moving quote"
+                  >
+                    Get Free Quote
+                    <FaArrowRight className="text-sm" />
+                  </Link>
+                </motion.div>
               </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.7 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-6 p-6 rounded-2xl
-              bg-white/5 backdrop-blur-md border border-white/10"
-          >
-            {STATS.map((stat) => (
-              <StatItem key={stat.label} {...stat} />
-            ))}
-          </motion.div>
+          {/* Floating truck decoration — reduced by 25% and grid-aligned */}
+          <div className="hidden lg:flex lg:col-span-5 xl:col-span-4 justify-center items-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="relative"
+            >
+              <div className="w-44 h-44 xl:w-48 xl:h-48 rounded-3xl bg-white/5 backdrop-blur-md border border-white/10
+                flex items-center justify-center shadow-glass">
+                <motion.div
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <FaTruck className="text-primary-400" style={{ fontSize: '4.3rem' }} />
+                </motion.div>
+              </div>
+              {/* Decorative rings */}
+              <div className="absolute inset-[-8px] rounded-3xl border border-white/10 pointer-events-none" />
+              <div className="absolute inset-[-16px] rounded-3xl border border-white/5 opacity-50 pointer-events-none" />
+            </motion.div>
+          </div>
         </div>
 
-        {/* Floating truck decoration */}
+        {/* Stats Card — positioned safely below with full-width clarity */}
         <motion.div
-          className="hidden xl:block absolute right-12 top-1/2 -translate-y-1/2"
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.7 }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-6 p-6 rounded-2xl
+            bg-white/5 backdrop-blur-md border border-white/10 mt-12 lg:mt-14 shadow-glass"
         >
-          <div className="relative">
-            <div className="w-72 h-72 rounded-3xl bg-white/5 backdrop-blur-md border border-white/10
-              flex items-center justify-center">
-              <motion.div
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <FaTruck className="text-primary-400" style={{ fontSize: '8rem' }} />
-              </motion.div>
-            </div>
-            {/* Decorative rings */}
-            <div className="absolute inset-[-12px] rounded-3xl border border-white/5" />
-            <div className="absolute inset-[-24px] rounded-3xl border border-white/5 opacity-50" />
-          </div>
+          {STATS.map((stat) => (
+            <StatItem key={stat.label} {...stat} />
+          ))}
         </motion.div>
       </div>
 

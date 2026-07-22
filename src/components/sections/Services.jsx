@@ -79,7 +79,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="section-padding relative overflow-hidden bg-gray-950 text-white"
+      className="section-padding relative overflow-hidden bg-gray-950 text-white scroll-mt-24"
       aria-labelledby="services-heading"
       style={{
         background: 'linear-gradient(135deg, #0d2137 0%, #0a1628 50%, #0d2a1a 100%)',

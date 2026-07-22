@@ -2,14 +2,14 @@ import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
   FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock,
-  FaWhatsapp, FaInstagram, FaTiktok, FaCheckCircle
+  FaWhatsapp, FaInstagram, FaTiktok, FaExclamationCircle
 } from 'react-icons/fa';
 import SectionTitle from '../ui/SectionTitle';
 import { COMPANY } from '../../constants/data';
 
 function ContactInfo({ icon: Icon, label, value, href, external }) {
   const inner = (
-    <div className="flex items-start gap-4 group p-3 rounded-xl hover:bg-white/5 transition-colors">
+    <div className="flex items-start gap-4 group p-3.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 transition-all duration-300">
       <div className="w-11 h-11 rounded-xl bg-primary-500/20 border border-primary-500/30 flex items-center justify-center flex-shrink-0
         group-hover:bg-primary-500 group-hover:text-white transition-colors duration-300">
         <Icon className="text-primary-400 group-hover:text-white transition-colors duration-300 text-base" />
@@ -38,31 +38,80 @@ function ContactInfo({ icon: Icon, label, value, href, external }) {
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
+  const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const formRef = useRef(null);
 
-  const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!form.name.trim()) {
+      newErrors.name = 'Full Name is required';
+    }
+
+    if (!form.email.trim()) {
+      newErrors.email = 'Email address is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!form.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    }
+
+    if (!form.service) {
+      newErrors.service = 'Please select a service';
+    }
+
+    if (!form.message.trim()) {
+      newErrors.message = 'Message or move details are required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    // Simulate async submit
-    setTimeout(() => {
-      setSubmitting(false);
-      setSubmitted(true);
-      setForm({ name: '', email: '', phone: '', service: '', message: '' });
-    }, 1500);
+    if (!validate()) {
+      return;
+    }
+
+    const cleanWhatsapp = COMPANY.whatsapp.replace(/\D/g, '');
+    const textMessage =
+      `*New Moving Quote Request*\n\n` +
+      `👤 *Full Name:* ${form.name.trim()}\n` +
+      `📧 *Email:* ${form.email.trim()}\n` +
+      `📞 *Phone:* ${form.phone.trim()}\n` +
+      `🚚 *Service Needed:* ${form.service}\n` +
+      `📝 *Message / Details:* ${form.message.trim()}`;
+
+    const waUrl = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(textMessage)}`;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+    setSubmitted(true);
   };
 
-  const inputCls = `w-full px-4 py-3.5 rounded-xl border border-white/20 bg-white/10 text-white text-sm
-    focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent
-    hover:border-primary-300 transition-all duration-200 placeholder:text-gray-400`;
+  const getInputClass = (fieldName) => `w-full px-4 py-3.5 rounded-xl border bg-white/10 text-white text-sm
+    focus:outline-none focus:ring-2 transition-all duration-200 placeholder:text-gray-400
+    ${
+      errors[fieldName]
+        ? 'border-red-500/80 focus:ring-red-400/50 focus:border-red-500'
+        : 'border-white/20 focus:ring-primary-400 focus:border-transparent hover:border-primary-300'
+    }`;
 
   return (
     <section
       id="contact"
-      className="section-padding relative overflow-hidden bg-gray-950 text-white"
+      className="section-padding relative overflow-hidden bg-gray-950 text-white scroll-mt-24"
       aria-labelledby="contact-heading"
       style={{
         background: 'linear-gradient(135deg, #0d2137 0%, #0a1628 50%, #0d2a1a 100%)',
@@ -76,7 +125,7 @@ export default function Contact() {
           light={true}
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
           {/* Left: Contact info */}
           <motion.div
@@ -86,6 +135,23 @@ export default function Contact() {
             transition={{ duration: 0.7 }}
             className="space-y-8"
           >
+            {/* Branding Header Section */}
+            <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 shadow-glass backdrop-blur-md">
+              <img
+                src={COMPANY.logo}
+                alt="Triple Task Movers Logo"
+                className="w-16 h-16 rounded-2xl object-cover border-2 border-primary-500/40 shadow-glow-primary shrink-0"
+              />
+              <div>
+                <span className="font-display text-2xl sm:text-3xl font-bold block leading-tight text-white">
+                  Triple Task
+                </span>
+                <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase block leading-tight text-secondary-400 mt-1">
+                  Movers
+                </span>
+              </div>
+            </div>
+
             <div className="grid gap-3">
               <ContactInfo
                 icon={FaPhone}
@@ -171,9 +237,12 @@ export default function Contact() {
             transition={{ duration: 0.7 }}
           >
             <div className="bg-white/5 backdrop-blur-md rounded-3xl shadow-glass border border-white/10 p-8">
-              <h3 className="font-display text-2xl font-bold text-white mb-6">
+              <h3 className="font-display text-2xl font-bold text-white mb-2">
                 Get a Free Quote
               </h3>
+              <p className="text-sm text-gray-300 mb-6">
+                Fill out the form below to initiate your quote directly via WhatsApp.
+              </p>
 
               {submitted ? (
                 <motion.div
@@ -181,18 +250,22 @@ export default function Contact() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="text-center py-12"
                 >
-                  <div className="w-20 h-20 rounded-full bg-primary-500/20 flex items-center justify-center mx-auto mb-4 border border-primary-500/30">
-                    <FaCheckCircle className="text-primary-400 text-4xl" />
+                  <div className="w-20 h-20 rounded-full bg-[#25D366]/20 flex items-center justify-center mx-auto mb-4 border border-[#25D366]/30">
+                    <FaWhatsapp className="text-[#25D366] text-4xl" />
                   </div>
-                  <h4 className="font-display text-xl font-bold text-white mb-2">Message Sent!</h4>
+                  <h4 className="font-display text-xl font-bold text-white mb-2">Opening WhatsApp...</h4>
                   <p className="text-gray-300 text-sm">
-                    Thanks! We'll be in touch with your free quote within minutes.
+                    Your details have been pre-filled. Complete your quote request right in WhatsApp!
                   </p>
                   <button
-                    onClick={() => setSubmitted(false)}
+                    onClick={() => {
+                      setSubmitted(false);
+                      setForm({ name: '', email: '', phone: '', service: '', message: '' });
+                      setErrors({});
+                    }}
                     className="mt-6 text-primary-400 text-sm font-semibold hover:underline"
                   >
-                    Send another message
+                    Submit another quote request
                   </button>
                 </motion.div>
               ) : (
@@ -200,7 +273,7 @@ export default function Contact() {
                   ref={formRef}
                   onSubmit={handleSubmit}
                   noValidate
-                  aria-label="Contact form to get a free moving quote"
+                  aria-label="Contact form to get a free moving quote on WhatsApp"
                 >
                   <div className="space-y-4">
                     {/* Name */}
@@ -216,9 +289,15 @@ export default function Contact() {
                         value={form.name}
                         onChange={handleChange}
                         placeholder="John Smith"
-                        className={inputCls}
+                        className={getInputClass('name')}
                         autoComplete="name"
                       />
+                      {errors.name && (
+                        <p className="text-red-400 text-xs font-medium mt-1.5 flex items-center gap-1">
+                          <FaExclamationCircle className="shrink-0" />
+                          {errors.name}
+                        </p>
+                      )}
                     </div>
 
                     {/* Email + Phone row */}
@@ -235,38 +314,52 @@ export default function Contact() {
                           value={form.email}
                           onChange={handleChange}
                           placeholder="john@example.com"
-                          className={inputCls}
+                          className={getInputClass('email')}
                           autoComplete="email"
                         />
+                        {errors.email && (
+                          <p className="text-red-400 text-xs font-medium mt-1.5 flex items-center gap-1">
+                            <FaExclamationCircle className="shrink-0" />
+                            {errors.email}
+                          </p>
+                        )}
                       </div>
                       <div>
                         <label htmlFor="contact-phone" className="block text-xs font-semibold text-gray-300 mb-1.5">
-                          Phone Number
+                          Phone Number <span className="text-secondary-400">*</span>
                         </label>
                         <input
                           id="contact-phone"
                           name="phone"
                           type="tel"
+                          required
                           value={form.phone}
                           onChange={handleChange}
                           placeholder="+1 (xxx) xxx-xxxx"
-                          className={inputCls}
+                          className={getInputClass('phone')}
                           autoComplete="tel"
                         />
+                        {errors.phone && (
+                          <p className="text-red-400 text-xs font-medium mt-1.5 flex items-center gap-1">
+                            <FaExclamationCircle className="shrink-0" />
+                            {errors.phone}
+                          </p>
+                        )}
                       </div>
                     </div>
 
                     {/* Service */}
                     <div>
                       <label htmlFor="contact-service" className="block text-xs font-semibold text-gray-300 mb-1.5">
-                        Service Needed
+                        Service Needed <span className="text-secondary-400">*</span>
                       </label>
                       <select
                         id="contact-service"
                         name="service"
+                        required
                         value={form.service}
                         onChange={handleChange}
-                        className={`${inputCls} [&>option]:bg-gray-900 [&>option]:text-white`}
+                        className={`${getInputClass('service')} [&>option]:bg-gray-900 [&>option]:text-white`}
                       >
                         <option value="">Select a service…</option>
                         <option>Residential Moving</option>
@@ -277,6 +370,12 @@ export default function Contact() {
                         <option>Junk Removal</option>
                         <option>Multiple Services</option>
                       </select>
+                      {errors.service && (
+                        <p className="text-red-400 text-xs font-medium mt-1.5 flex items-center gap-1">
+                          <FaExclamationCircle className="shrink-0" />
+                          {errors.service}
+                        </p>
+                      )}
                     </div>
 
                     {/* Message */}
@@ -292,34 +391,30 @@ export default function Contact() {
                         value={form.message}
                         onChange={handleChange}
                         placeholder="Tell us about your move — location, date, special requirements…"
-                        className={`${inputCls} resize-none`}
+                        className={`${getInputClass('message')} resize-none`}
                       />
+                      {errors.message && (
+                        <p className="text-red-400 text-xs font-medium mt-1.5 flex items-center gap-1">
+                          <FaExclamationCircle className="shrink-0" />
+                          {errors.message}
+                        </p>
+                      )}
                     </div>
 
-                    {/* Submit */}
+                    {/* Submit Button */}
                     <motion.button
                       type="submit"
-                      disabled={submitting}
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ scale: 1.02, translateY: -1 }}
                       whileTap={{ scale: 0.98 }}
-                      className="w-full btn-primary !text-base !py-4 disabled:opacity-70 disabled:cursor-not-allowed"
-                      aria-label="Submit contact form to get a free quote"
+                      className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-[#25D366]/25 transition-all duration-300 flex items-center justify-center gap-3 text-base group cursor-pointer mt-2"
+                      aria-label="Get Quote on WhatsApp"
                     >
-                      {submitting ? (
-                        <span className="flex items-center justify-center gap-2">
-                          <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                          </svg>
-                          Sending…
-                        </span>
-                      ) : (
-                        'Get My Free Quote →'
-                      )}
+                      <FaWhatsapp className="text-2xl group-hover:scale-110 transition-transform duration-300" />
+                      <span>Get Quote on WhatsApp</span>
                     </motion.button>
 
-                    <p className="text-center text-xs text-gray-400">
-                      🔒 Your info is private. We'll never share your details.
+                    <p className="text-center text-xs text-gray-400 pt-2">
+                      🔒 Your info is private. Clicking opens WhatsApp with your quote details pre-filled.
                     </p>
                   </div>
                 </form>
@@ -331,3 +426,4 @@ export default function Contact() {
     </section>
   );
 }
+

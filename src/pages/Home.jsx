@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useAOS } from '../hooks/useAOS';
 import SEOHead from '../components/common/SEOHead';
 import Hero from '../components/sections/Hero';

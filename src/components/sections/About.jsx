@@ -14,7 +14,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="section-padding relative overflow-hidden bg-gray-950 text-white"
+      className="section-padding relative overflow-hidden bg-gray-950 text-white scroll-mt-24"
       aria-labelledby="about-heading"
       style={{
         background: 'linear-gradient(135deg, #0a1628 0%, #0d2a1a 50%, #0a1628 100%)',

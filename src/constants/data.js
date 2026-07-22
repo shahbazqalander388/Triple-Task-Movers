@@ -1,6 +1,7 @@
 // Company Information
 export const COMPANY = {
   name: 'Triple Task Movers',
+  logo: 'https://res.cloudinary.com/dai2g47e4/image/upload/v1784746169/WhatsApp_Image_2026-07-22_at_11.45.42_PM_pb3awd.jpg',
   tagline: 'Alberta\'s Most Trusted Moving Company',
   phone: '+1 (365) 440-0188',
   phoneRaw: '+13654400188',
@@ -15,8 +16,10 @@ export const COMPANY = {
     full: '4500 Blackfalds Crossing Way, Blackfalds, AB T0C 0J0, Canada',
   },
   hours: 'Open 24 Hours / 7 Days a Week',
+  facebook: 'https://www.facebook.com/tripletaskmovers',
   instagram: 'https://www.instagram.com/tripletaskmovers',
   tiktok: 'https://www.tiktok.com/@triple.task.mover',
+  linkedin: 'https://www.linkedin.com/company/tripletaskmovers',
   googleMaps: 'https://maps.app.goo.gl/eCjaCXaKeMN5Lg877',
   googleMapsEmbed:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2408.91!2d-113.8094!3d52.3706!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDIyJzE0LjIiTiAxMTPCsDQ4JzMzLjgiVw!5e0!3m2!1sen!2sca!4v1690000000000!5m2!1sen!2sca',
@@ -24,11 +27,11 @@ export const COMPANY = {
 
 // Navigation Links
 export const NAV_LINKS = [
-  { label: 'Home', path: '/' },
-  { label: 'About', path: '/about' },
-  { label: 'Services', path: '/services' },
-  { label: 'Gallery', path: '/gallery' },
-  { label: 'Contact', path: '/contact' },
+  { id: 'home', label: 'Home', path: '/' },
+  { id: 'about', label: 'About', path: '/about' },
+  { id: 'services', label: 'Services', path: '/services' },
+  { id: 'gallery', label: 'Gallery', path: '/gallery' },
+  { id: 'contact', label: 'Contact', path: '/contact' },
 ];
 
 // Services
