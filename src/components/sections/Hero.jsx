@@ -88,12 +88,9 @@ export default function Hero() {
               {/* Main heading */}
               <motion.h1
                 variants={itemVariants}
-                className="hero-title font-display font-black text-white leading-[1.08] mb-6"
+                className="hero-title font-display font-black text-white leading-[1.05] mb-6"
                 style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)' }}
               >
-                <span className="block text-primary-400 text-lg sm:text-2xl font-bold tracking-wide uppercase mb-2">
-                  Triple Task Movers
-                </span>
                 Moving Made{' '}
                 <span className="relative inline-block">
                   <span className="text-gradient-mixed">Simple,</span>

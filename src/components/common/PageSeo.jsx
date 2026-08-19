@@ -5,7 +5,7 @@ const DEFAULT_IMAGE = 'https://tripletaskmovers.business/logo.jpg';
 const SITE_NAME = 'Triple Task Movers';
 
 export default function PageSeo({
-  title = 'Triple Task Movers | Professional Moving & Relocation Services',
+  title = 'Triple Task Movers | Moving, Cleaning & Junk Removal',
   description = 'Triple Task Movers provides 24/7 residential & commercial moving, packing, cleaning, and junk removal services across Alberta. Get your free quote today!',
   keywords = 'moving company Alberta, Triple Task Movers, Blackfalds movers, Red Deer movers, residential moving, commercial moving, packing services, junk removal, moving company Canada',
   canonical = SITE_URL,
