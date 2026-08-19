@@ -1,0 +1,22 @@
+{
+  "name": "Triple Task Movers",
+  "short_name": "Triple Task",
+  "description": "Professional Moving Company in Alberta, Canada",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1628",
+  "theme_color": "#0B8F3A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

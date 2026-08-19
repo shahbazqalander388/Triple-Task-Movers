@@ -24,7 +24,9 @@ export default function Button({
     const id = Date.now();
     setRipples((prev) => [...prev, { x, y, id }]);
     setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 700);
-    onClick && onClick(e);
+    if (onClick) {
+      onClick(e);
+    }
   };
 
   const variants = {

@@ -73,9 +73,9 @@ export default function LoadingScreen() {
 
             {/* Company name */}
             <div className="text-center">
-              <h1 className="font-display text-3xl font-bold text-white tracking-tight">
+              <div className="font-display text-3xl font-bold text-white tracking-tight">
                 Triple Task <span className="text-gradient-primary">Movers</span>
-              </h1>
+              </div>
               <p className="text-gray-400 text-sm mt-1">Alberta's Most Trusted Movers</p>
             </div>
           </motion.div>

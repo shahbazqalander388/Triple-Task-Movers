@@ -1,17 +1,17 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaTruck, FaHome, FaArrowLeft } from 'react-icons/fa';
-import SEOHead from '../components/common/SEOHead';
+import { FaTruck, FaHome, FaPhoneAlt } from 'react-icons/fa';
+import PageSeo from '../components/common/PageSeo';
 
 export default function NotFound() {
   return (
     <>
-      <SEOHead
+      <PageSeo
         title="404 – Page Not Found | Triple Task Movers"
-        description="Oops! The page you're looking for doesn't exist. Return to Triple Task Movers homepage."
-        canonical="https://tripletaskmovers.ca/404"
+        description="The page you are looking for does not exist. Return to Triple Task Movers to book your move or get a free quote."
+        noindex={true}
       />
-      <div
+      <main
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #0a1628 0%, #0d2a1a 100%)' }}
       >
@@ -77,13 +77,14 @@ export default function NotFound() {
               Oops! Truck took a wrong turn.
             </h1>
             <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto">
-              The page you're looking for seems to have moved. Let's get you back on track!
+              The page you're looking for seems to have moved or does not exist. Let's get you back on track!
             </p>
 
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 to="/"
                 className="btn-primary text-base"
+                aria-label="Back to Homepage"
               >
                 <FaHome className="text-sm" />
                 Back to Home
@@ -91,14 +92,15 @@ export default function NotFound() {
               <Link
                 to="/contact"
                 className="btn-outline text-base"
+                aria-label="Contact Triple Task Movers"
               >
-                <FaArrowLeft className="text-sm" />
+                <FaPhoneAlt className="text-sm" />
                 Contact Us
               </Link>
             </div>
           </motion.div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
