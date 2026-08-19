@@ -17,10 +17,10 @@ export default function Home() {
   return (
     <>
       <SEOHead
-        title="Triple Task Movers | Professional Moving Company in Alberta, Canada"
-        description="Triple Task Movers offers premium residential & commercial moving, packing, loading, cleaning, and junk removal across Alberta. Available 24/7. Call +1 (365) 440-0188."
+        title="Triple Task Movers | Moving, Cleaning & Junk Removal"
+        description="Triple Task Movers provides professional moving, cleaning, and junk removal services in Red Deer, Alberta and nearby areas."
         keywords="moving company Alberta, Triple Task Movers, Blackfalds movers, residential moving, commercial moving, packing services, junk removal, Red Deer movers"
-        canonical="https://tripletaskmovers.ca/"
+        canonical="https://tripletaskmovers.business/"
       />
       <Hero />
       <About />

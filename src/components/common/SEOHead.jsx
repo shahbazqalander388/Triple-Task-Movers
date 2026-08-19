@@ -1,11 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 
 export default function SEOHead({
-  title = 'Triple Task Movers | Professional Moving Company in Alberta, Canada',
-  description = 'Triple Task Movers offers premium residential & commercial moving, packing, loading, cleaning, and junk removal services across Alberta, Canada. Available 24/7.',
-  keywords = 'moving company Alberta, Triple Task Movers, residential moving, commercial moving',
-  canonical = 'https://tripletaskmovers.ca/',
-  ogImage = 'https://tripletaskmovers.ca/og-image.jpg',
+  title = 'Triple Task Movers | Moving, Cleaning & Junk Removal',
+  description = 'Triple Task Movers provides professional moving, cleaning, and junk removal services in Red Deer, Alberta and nearby areas.',
+  keywords = 'moving company Alberta, Triple Task Movers, residential moving, commercial moving, cleaning services, junk removal',
+  canonical = 'https://tripletaskmovers.business/',
+  ogImage = 'https://tripletaskmovers.business/icon-512.png',
 }) {
   return (
     <Helmet>
