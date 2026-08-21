@@ -17,7 +17,7 @@ const homeStructuredData = [
     '@type': ['MovingCompany', 'LocalBusiness'],
     '@id': 'https://tripletaskmovers.business/#business',
     'name': 'Triple Task Movers',
-    'alternateName': 'Triple Task Moving Company',
+    'alternateName': ['TRIPLE TASK MOVERS', 'Triple Task Moving Company'],
     'description': 'Professional moving company offering residential moving, commercial moving, packing & unpacking, loading & unloading, cleaning services, and junk removal across Alberta, Canada.',
     'url': 'https://tripletaskmovers.business/',
     'telephone': '+13654400188',
@@ -67,7 +67,7 @@ const homeStructuredData = [
       { '@type': 'State', 'name': 'Alberta' },
     ],
     'image': 'https://tripletaskmovers.business/icon-512.png',
-    'logo': 'https://tripletaskmovers.business/logo.jpg',
+    'logo': 'https://tripletaskmovers.business/icon-512.png',
   },
   {
     '@context': 'https://schema.org',
@@ -75,6 +75,7 @@ const homeStructuredData = [
     '@id': 'https://tripletaskmovers.business/#website',
     'url': 'https://tripletaskmovers.business/',
     'name': 'Triple Task Movers',
+    'alternateName': ['TRIPLE TASK MOVERS', 'Triple Task Moving', 'tripletaskmovers.business'],
     'description': 'Professional Moving & Relocation Services in Alberta',
     'publisher': {
       '@id': 'https://tripletaskmovers.business/#business',
@@ -88,7 +89,7 @@ export default function Home() {
   return (
     <>
       <PageSeo
-        title="Triple Task Movers | Moving, Cleaning & Junk Removal"
+        title="Triple Task Movers"
         description="Triple Task Movers provides 24/7 residential & commercial moving, packing, cleaning, and junk removal services across Alberta. Get your free moving quote today!"
         keywords="moving company Alberta, Triple Task Movers, Blackfalds movers, Red Deer movers, residential moving, commercial moving, packing services, junk removal, moving company Canada"
         canonical="https://tripletaskmovers.business/"
